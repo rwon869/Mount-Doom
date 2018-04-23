@@ -3,7 +3,7 @@ pub = rospublisher('/raw_vel');
 acc = rossubscriber('/accel');
 msg = rosmessage(pub);
 sub_bump = rossubscriber('/bump');
-omega = (0.5 + .05)/.2495;
+omega = (0.5 + .05)/.2495; %calculate angular velocity (Vr-Vl/d)
 %run 'rostopic echo /accel' in the command line to find initial accel
 %values
 threshold = 0.01;
@@ -28,7 +28,7 @@ while 1
     elseif y > threshold 
         msg.Data = [-.05, .05]; %turn counterclockwise
         send(pub,msg);
-        time = abs((y * pi)/omega);
+        time = abs((y * pi)/omega); %set time to theta/omega
         pause(time);
         
     %if accelY is less than threshold, turn clockwise
